@@ -84,6 +84,11 @@ public class ModCapabilityEvents {
 
         if (ModList.get().isLoaded("mekanism")) {
             com.yongaishide.chaosworld.compat.mekanism.MekanismChemicalCompat.registerCapabilities(event, ModBlockEntities.ME_MASSIVE_OUTPUT_HATCH_BE.get());
+            event.registerBlockEntity(
+                    mekanism.common.capabilities.Capabilities.STRICT_ENERGY.block(),
+                    ModBlockEntities.QUANTUM_ENERGY_CELL_BE.get(),
+                    (be, context) -> be.getStrictEnergy()
+            );
         }
     }
 

@@ -23,7 +23,7 @@ public class Config {
             .define("techColor_4", 0xFF03DE6D);
     private static final ModConfigSpec.ConfigValue<Integer> TECH_COLOR_5 = BUILDER
             .comment("Color for tech_5 items (hex ARGB)")
-            .define("techColor_5", 0xFF2D8CF0);
+            .define("techColor_5", 0xFF934FA8);
     private static final ModConfigSpec.ConfigValue<Integer> TECH_COLOR_6 = BUILDER
             .comment("Color for tech_6 items (hex ARGB)")
             .define("techColor_6", 0xFF8B5CF6);

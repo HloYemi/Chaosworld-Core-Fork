@@ -4,6 +4,8 @@ import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.blockentity.networking.CreativeEnergyCellBlockEntity;
 import com.yongaishide.chaosworld.util.AdjacentEnergyExporter;
+import mekanism.api.Action;
+import mekanism.api.energy.IStrictEnergyHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,6 +53,42 @@ public class QuantumEnergyCellBlockEntity extends CreativeEnergyCellBlockEntity 
         }
     };
 
+    private final IStrictEnergyHandler strictEnergy = new IStrictEnergyHandler() {
+        @Override
+        public int getEnergyContainerCount() {
+            return 1;
+        }
+
+        @Override
+        public long getEnergy(int container) {
+            return Long.MAX_VALUE;
+        }
+
+        @Override
+        public void setEnergy(int container, long amount) {
+        }
+
+        @Override
+        public long getMaxEnergy(int container) {
+            return Long.MAX_VALUE;
+        }
+
+        @Override
+        public long getNeededEnergy(int container) {
+            return 0;
+        }
+
+        @Override
+        public long insertEnergy(int container, long amount, Action action) {
+            return 0;
+        }
+
+        @Override
+        public long extractEnergy(int container, long amount, Action action) {
+            return amount;
+        }
+    };
+
     public QuantumEnergyCellBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
         super(blockEntityType, pos, blockState);
     }
@@ -65,5 +103,9 @@ public class QuantumEnergyCellBlockEntity extends CreativeEnergyCellBlockEntity 
 
     public IEnergyStorage getExposedEnergy() {
         return this.exposedEnergy;
+    }
+
+    public IStrictEnergyHandler getStrictEnergy() {
+        return this.strictEnergy;
     }
 }

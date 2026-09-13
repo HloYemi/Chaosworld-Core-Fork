@@ -1,17 +1,14 @@
 package com.yongaishide.chaosworld.mixin;
 
-import com.yongaishide.chaosworld.item.ModItems;
+import com.yongaishide.chaosworld.init.ModRecipes;
+import com.yongaishide.chaosworld.recipe.FusionConversionRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
@@ -21,9 +18,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Throwing an Avaritia Iron Singularity (avaritia:singularity with
- * singularity_id "avaritia:iron") into the plasma of a burning Mekanism fusion
- * reactor converts it into chaosworld_core:neutronite_ingot.
+ * Data-driven conversion performed when a matching item is dropped into the
+ * plasma of a burning Mekanism fusion reactor. The recipe set is read from the
+ * {@code chaosworld_core:fusion_conversion} recipe type, so any data pack (such
+ * as KubeJS) can define additional conversions without touching the mod.
  * <p>
  * Runs on the always-present ItemEntity. Mekanism Generators classes are only
  * touched via reflection, so the mod loads fine without Mekanism Generators.
@@ -32,9 +30,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class FusionPlasmaItemMixin {
 
     private static final String CONTROLLER_CLASS = "mekanism.generators.common.tile.fusion.TileEntityFusionReactorController";
-    private static final ResourceLocation SINGULARITY_ITEM_ID = ResourceLocation.parse("avaritia:singularity");
-    private static final ResourceLocation SINGULARITY_ID_COMPONENT = ResourceLocation.parse("avaritia:singularity_id");
-    private static final String TARGET_SINGULARITY = "avaritia:iron";
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void ufo$convertInPlasma(CallbackInfo ci) {
@@ -43,20 +38,35 @@ public abstract class FusionPlasmaItemMixin {
         if (level.isClientSide || self.tickCount % 10 != 0) {
             return;
         }
-        if (!isIronSingularity(self.getItem())) {
+        FusionConversionRecipe recipe = findRecipe(level, self.getItem());
+        if (recipe == null) {
             return;
         }
         if (!net.neoforged.fml.ModList.get().isLoaded("mekanismgenerators")) {
             return;
         }
         try {
-            convertInFusionReactor(self);
+            convertInFusionReactor(self, recipe);
         } catch (Throwable ignored) {
             // Never let a compat issue break item ticking
         }
     }
 
-    private static void convertInFusionReactor(ItemEntity item) throws Exception {
+    private static FusionConversionRecipe findRecipe(Level level, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        for (RecipeHolder<FusionConversionRecipe> holder : level.getRecipeManager()
+                .getAllRecipesFor(ModRecipes.FUSION_CONVERSION_TYPE.get())) {
+            FusionConversionRecipe recipe = holder.value();
+            if (recipe.getInput().test(stack)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
+    private static void convertInFusionReactor(ItemEntity item, FusionConversionRecipe recipe) throws Exception {
         Level level = item.level();
         BlockPos pos = item.blockPosition();
         Class<?> controllerClass = Class.forName(CONTROLLER_CLASS);
@@ -83,7 +93,9 @@ public abstract class FusionPlasmaItemMixin {
             }
 
             ItemStack stack = item.getItem();
-            item.setItem(new ItemStack(ModItems.NEUTRONITE_INGOT.get(), stack.getCount()));
+            ItemStack result = recipe.getResult();
+            int total = Math.min(result.getCount() * stack.getCount(), result.getMaxStackSize());
+            item.setItem(result.copyWithCount(Math.max(1, total)));
             // Eject the result out of the plasma (the reactor's interior is lethal)
             item.setDeltaMovement(0, 0.4, 0);
             item.setPos(item.getX(), interior.maxY + 0.5, item.getZ());
@@ -94,21 +106,5 @@ public abstract class FusionPlasmaItemMixin {
             }
             return;
         }
-    }
-
-    private static boolean isIronSingularity(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return false;
-        }
-        Item singularity = BuiltInRegistries.ITEM.get(SINGULARITY_ITEM_ID);
-        if (singularity == null || singularity == Items.AIR || !stack.is(singularity)) {
-            return false;
-        }
-        DataComponentType<?> type = BuiltInRegistries.DATA_COMPONENT_TYPE.get(SINGULARITY_ID_COMPONENT);
-        if (type == null) {
-            return false;
-        }
-        Object value = stack.get(type);
-        return value != null && TARGET_SINGULARITY.equals(value.toString());
     }
 }

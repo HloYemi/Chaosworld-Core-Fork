@@ -5,21 +5,21 @@
     "texture": "guis/dimensional_matter_assembler.png",
     "textureWidth": 256,
     "textureHeight": 256,
-    "srcRect": [0, 0, 176, 256]
+    "srcRect": [0, 0, 176, 183]
   },
   "slots": {
     "MACHINE_INPUT": {
-      "left": 44,
-      "top": 21,
+      "left": 48,
+      "top": 22,
       "grid": "BREAK_AFTER_3COLS"
     },
     "MACHINE_OUTPUT": {
-      "left": 108,
-      "top": 40
+      "left": 133,
+      "top": 22
     },
     "UFO_MACHINE_OUTPUT_2": {
-      "left": 108,
-      "top": 58
+      "left": 133,
+      "top": 50
     }
   },
   "text": {
@@ -36,11 +36,11 @@
   "images": {
     "progressBar": {
       "texture": "guis/dimensional_matter_assembler.png",
-      "srcRect": [176, 0, 21, 12]
+      "srcRect": [234, 0, 20, 11]
     },
     "powerAlert": {
       "texture": "guis/dimensional_matter_assembler.png",
-      "srcRect": [176, 18, 18, 18]
+      "srcRect": [207, 1, 14, 14]
     }
   },
   "widgets": {

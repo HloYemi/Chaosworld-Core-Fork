@@ -56,6 +56,12 @@ public class UfoModClient {
         InitScreens.register(event, ModMenus.QUANTUM_PROCESSOR_ASSEMBLER_CONTROLLER_MENU.get(), QuantumProcessorAssemblerControllerScreen::new, "/screens/universal_multiblock_controller.json");
         InitScreens.register(event, ModMenus.QUANTUM_CRYOFORGE_CONTROLLER_MENU.get(), QuantumCryoforgeControllerScreen::new, "/screens/universal_multiblock_controller.json");
         InitScreens.register(event, ModMenus.QUANTUM_PATTERN_HATCH_MENU, QuantumPatternHatchScreen::new, "/screens/quantum_pattern_hatch.json");
+        event.register(com.yongaishide.chaosworld.mekanism.MekanismMachines.MECHANICAL_ASSEMBLER_CONTAINER.get(),
+              com.yongaishide.chaosworld.mekanism.client.gui.GuiMechanicalAssembler::new);
+        event.register(com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.DRAGON_SOUL_FORGE_CONTAINER.get(),
+              com.yongaishide.chaosworld.mekanism.client.gui.GuiDragonSoulForge::new);
+        event.register(com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.VEIN_DRILL_CONTAINER.get(),
+              com.yongaishide.chaosworld.mekanism.vein.client.gui.GuiVeinDrill::new);
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -1,0 +1,12 @@
+{
+  "type": "chaosworld_core:assembling",
+  "itemInputs": [
+    {"item": "minecraft:iron_ingot"},
+    {"item": "minecraft:gold_ingot"}
+  ],
+  "chemicalInput": {"chemical": "mekanism:hydrogen", "amount": 100},
+  "fluidInputs": [
+    {"fluid": "minecraft:water", "amount": 50}
+  ],
+  "output": {"id": "minecraft:diamond"}
+}

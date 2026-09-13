@@ -1,0 +1,16 @@
+{
+  "type": "chaosworld_core:dragon_soul_forging",
+  "itemInputs": [
+    {"ingredient": {"item": "minecraft:diamond"}, "count": 2},
+    {"ingredient": {"item": "minecraft:emerald"}, "count": 2}
+  ],
+  "fluidInputs": [
+    {"fluid": "minecraft:water", "amount": 1000}
+  ],
+  "catalystInput": {
+    "ingredient": {"item": "chaosworld_core:dragon_catalyst"},
+    "amount": 2,
+    "consume": false
+  },
+  "output": {"id": "chaosworld_core:stellar_alloy_core", "count": 3}
+}

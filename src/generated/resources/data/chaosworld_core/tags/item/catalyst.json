@@ -12,6 +12,8 @@
     "chaosworld_core:quantum_catalyst_t1",
     "chaosworld_core:quantum_catalyst_t2",
     "chaosworld_core:quantum_catalyst_t3",
-    "chaosworld_core:dimensional_catalyst"
+    "chaosworld_core:dimensional_catalyst",
+    "chaosworld_core:dragon_catalyst",
+    "chaosworld_core:twilight_catalyst"
   ]
 }

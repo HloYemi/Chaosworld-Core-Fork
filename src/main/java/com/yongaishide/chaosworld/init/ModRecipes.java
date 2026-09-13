@@ -2,6 +2,7 @@ package com.yongaishide.chaosworld.init;
 
 import com.yongaishide.chaosworld.recipe.DimensionalMatterAssemblerRecipe;
 import com.yongaishide.chaosworld.recipe.DimensionalMatterAssemblerRecipeSerializer;
+import com.yongaishide.chaosworld.recipe.FusionConversionRecipe;
 import com.yongaishide.chaosworld.recipe.QMFRecipe;
 import com.yongaishide.chaosworld.recipe.StellarSimulationRecipe;
 import com.yongaishide.chaosworld.recipe.StellarSimulationRecipeSerializer;
@@ -34,6 +35,19 @@ public class ModRecipes {
 
     public static final Supplier<RecipeSerializer<DimensionalMatterAssemblerRecipe>> DMA_RECIPE_SERIALIZER =
             SERIALIZERS.register(DMA_ID, () -> DimensionalMatterAssemblerRecipeSerializer.INSTANCE);
+
+    // FUSION CONVERSION (data-driven fusion reactor plasma conversion)
+    public static final String FUSION_CONVERSION_ID = "fusion_conversion";
+
+    public static final Supplier<RecipeType<FusionConversionRecipe>> FUSION_CONVERSION_TYPE = RECIPE_TYPES.register(FUSION_CONVERSION_ID, () -> new RecipeType<FusionConversionRecipe>() {
+        @Override
+        public String toString() {
+            return FUSION_CONVERSION_ID;
+        }
+    });
+
+    public static final Supplier<RecipeSerializer<FusionConversionRecipe>> FUSION_CONVERSION_SERIALIZER =
+            SERIALIZERS.register(FUSION_CONVERSION_ID, FusionConversionRecipe.Serializer::new);
 
     // STELLAR NEXUS
     public static final String STELLAR_SIMULATION_ID = "stellar_simulation";

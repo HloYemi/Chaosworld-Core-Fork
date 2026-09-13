@@ -38,16 +38,16 @@ public class DimensionalMatterAssemblerScreen extends UpgradeableScreen<Dimensio
     private FluidTankSlot outputFluid2Slot;
 
     // Energy bar region on the texture
-    private static final int ENERGY_X = 155;
-    private static final int ENERGY_Y = 34;
-    private static final int ENERGY_W = 6;
-    private static final int ENERGY_H = 18;
+    private static final int ENERGY_X = 156;
+    private static final int ENERGY_Y = 35;
+    private static final int ENERGY_W = 4;
+    private static final int ENERGY_H = 16;
 
-    // Heat bar region (new coordinates from user)
-    private static final int HEAT_BAR_X = 9;
-    private static final int HEAT_BAR_Y = 5;
-    private static final int HEAT_BAR_W = 91; // 100 - 9
-    private static final int HEAT_BAR_H = 10; // 15 - 5
+    // Heat bar region (the dark box under the crafting grid)
+    private static final int HEAT_BAR_X = 61;
+    private static final int HEAT_BAR_Y = 79;
+    private static final int HEAT_BAR_W = 41;
+    private static final int HEAT_BAR_H = 11;
 
     public DimensionalMatterAssemblerScreen(
             DimensionalMatterAssemblerMenu menu, Inventory playerInventory, Component title, ScreenStyle style) {
@@ -203,7 +203,7 @@ public class DimensionalMatterAssemblerScreen extends UpgradeableScreen<Dimensio
         int topEmpty = ENERGY_H - filled;
 
         Blitter.texture("guis/dimensional_matter_assembler.png")
-            .src(225, topEmpty, ENERGY_W, filled)
+            .src(226, 1 + topEmpty, ENERGY_W, filled)
             .dest(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y + topEmpty)
             .blit(guiGraphics);
 
@@ -310,7 +310,7 @@ public class DimensionalMatterAssemblerScreen extends UpgradeableScreen<Dimensio
             tooltip.add(Component.translatable("gui.ufo.dma.heat", temp, maxTemp));
 
             double pct = maxTemp > 0 ? ((double) temp / maxTemp * 100.0) : 0;
-            tooltip.add(Component.translatable("gui.ufo.dma.heat_capacity", String.format("%.1f%%", pct)));
+            tooltip.add(Component.translatable("gui.ufo.dma.heat_capacity", String.format("%.1f", pct)));
 
             if (overload > 0) {
                 tooltip.add(Component.translatable("gui.ufo.dma.heat_critical", overload / 20));

@@ -21,10 +21,14 @@
     "ae2.TickRatesMixin",
     "ae2.IOBusPartMixin",
     "ae2.IOPortBlockEntityMixin",
+    "ae2.CondenserBlockEntityMixin",
+    "ae2.RestrictedInputSlotMixin",
     "ae2.TileExIOPortMixin",
     "neoecoae.ECOStorageSystemBlockEntityMixin",
     "neoecoae.ECODriveBlockEntityMixin",
-    "neoecoae.StorageHostConsumptionRowMixin"
+    "neoecoae.StorageHostConsumptionRowMixin",
+    "twilightforest.BossRewardChestMixin",
+    "twilightforest.IBossLootBufferMixin"
   ],
   "client": [
     "MixinCPUSelectionList",

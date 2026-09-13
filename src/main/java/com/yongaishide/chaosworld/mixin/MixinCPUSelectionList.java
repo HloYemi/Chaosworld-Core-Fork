@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.text.DecimalFormat;
 
-@Mixin(value = appeng.client.gui.widgets.CPUSelectionList.class, priority = 5000, remap = false)
+@Mixin(value = appeng.client.gui.widgets.CPUSelectionList.class, priority = 1000, remap = false)
 public class MixinCPUSelectionList {
     @Unique
     private static final DecimalFormat ufo$DF = new DecimalFormat("#.##");
@@ -27,7 +27,8 @@ public class MixinCPUSelectionList {
             at = @At(
                     value = "INVOKE",
                     target = "Lappeng/core/localization/Tooltips;ofBytes(J)Lnet/minecraft/network/chat/MutableComponent;"
-            )
+            ),
+            require = 0
     )
     private MutableComponent storageTooltip(long bytes) {
         return Component.literal(ufo$formatStorage(bytes)).withStyle(Tooltips.NUMBER_TEXT);
@@ -38,7 +39,8 @@ public class MixinCPUSelectionList {
             at = @At(
                     value = "INVOKE",
                     target = "Lappeng/core/localization/Tooltips;ofNumber(J)Lnet/minecraft/network/chat/MutableComponent;"
-            )
+            ),
+            require = 0
     )
     private MutableComponent ufo$formatCoProcessorsTooltip(long value) {
         if (value >= ufo$INFINITE_THREADS_THRESHOLD) {

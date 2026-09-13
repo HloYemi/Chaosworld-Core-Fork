@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/absolute"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:ultimate_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:gems/emerald"
+                      },
+                "A":  {
+                          "tag":  "mekanism_extras:alloys/radiance"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:absolute_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

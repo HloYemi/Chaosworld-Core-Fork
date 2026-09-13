@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/cosmic"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:supreme_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:ingots/refined_obsidian"
+                      },
+                "A":  {
+                          "tag":  "mekanism_extras:alloys/shining"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:cosmic_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

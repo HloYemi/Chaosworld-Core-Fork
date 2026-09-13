@@ -127,7 +127,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         ModItems.QUANTUM_CATALYST_T1.get(),
         ModItems.QUANTUM_CATALYST_T2.get(),
         ModItems.QUANTUM_CATALYST_T3.get(),
-        ModItems.DIMENSIONAL_CATALYST.get()
+        ModItems.DIMENSIONAL_CATALYST.get(),
+        com.yongaishide.chaosworld.ChaosWorld.DRAGON_CATALYST.get(),
+        com.yongaishide.chaosworld.ChaosWorld.TWILIGHT_CATALYST.get()
         );
 
         tag(ItemTags.create(ResourceLocation.parse("ae2:p2p_attunements/fe_p2p_tunnel")))
@@ -151,6 +153,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
     private void addMetalTags() {
         addMetalItemTags(ModMetals.METAL_ITEMS, ModMetals.METAL_BLOCK_ITEMS);
         addMetalItemTags(ModTech.TECH_ITEMS, ModTech.TECH_BLOCK_ITEMS);
+        TagKey<Item> holyGoldIngot = TagKey.create(Registries.ITEM, ResourceLocation.parse("c:ingots/holy_gold"));
+        tag(holyGoldIngot).add(ModMetals.METAL_ITEMS.get("holy_gold_ingot").get());
+        tag(TagKey.create(Registries.ITEM, ResourceLocation.parse("c:ingots"))).add(ModMetals.METAL_ITEMS.get("holy_gold_ingot").get());
     }
 
     private void addMetalItemTags(Map<String, DeferredHolder<Item, ? extends Item>> items,

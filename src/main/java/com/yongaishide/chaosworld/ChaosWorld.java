@@ -111,6 +111,8 @@ public class ChaosWorld {
     public static final DeferredHolder<Item, BaseItem> NANO_COMPUTER = item("nano_computer");
     public static final DeferredHolder<Item, BaseItem> NANO_MAINFRAME = item("nano_mainframe");
     public static final DeferredHolder<Item, BaseItem> NANO_PROCESSOR = item("nano_processor");
+    public static final DeferredHolder<Item, BaseItem> MICRO_MAINFRAME = item("mainframe");
+    public static final DeferredHolder<Item, BaseItem> MICRO_ASSEMBLY = item("assembly");
     public static final DeferredHolder<Item, BaseItem> CENTRAL_PROCESSING = item("central_processing");
     public static final DeferredHolder<Item, BaseItem> CHARGING_MAGIC_EMERALD_CRYSTAL = item("charging_magic_emerald_crystal", true);
     public static final DeferredHolder<Item, BaseItem> CIRCUIT_PROCESSOR = item("circuit_processor");
@@ -128,6 +130,7 @@ public class ChaosWorld {
     public static final DeferredHolder<Item, BaseItem> BASIC_INTEGRATED = item("basic_integrated");
     public static final DeferredHolder<Item, BaseItem> ADVANCED_INTEGRATED = item("advanced_integrated");
     public static final DeferredHolder<Item, BaseItem> MAGIC_EMERALD_CRYSTAL = item("magic_emerald_crystal");
+    public static final DeferredHolder<Item, BaseItem> STELLAR_ALLOY_CORE = item("stellar_alloy_core");
 
     private static DeferredHolder<Item, BaseItem> item(String id) {
         return ITEMS.register(id, () -> new BaseItem(new Item.Properties(), false));
@@ -165,6 +168,18 @@ public class ChaosWorld {
         ModSounds.register(modEventBus);
         modEventBus.addListener(ModEntities::registerAttributes);
         ModBlocks.INSTANCE.register(modEventBus);
+        com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.init();
+        com.yongaishide.chaosworld.mekanism.MekanismMachines.register(modEventBus);
+        com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.init();
+        com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.init();
+        //物品容器 creator:必须在物品注册完成之后、RegisterCapabilitiesEvent 之前执行,
+        //因此挂在 ITEM 注册事件里(构造期访问 DeferredHolder.get() 会抛异常)
+        modEventBus.addListener(net.neoforged.neoforge.registries.RegisterEvent.class, event -> {
+            if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) {
+                com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.registerItemContainers(modEventBus);
+            }
+        });
+        com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         NeoForge.EVENT_BUS.register(this);

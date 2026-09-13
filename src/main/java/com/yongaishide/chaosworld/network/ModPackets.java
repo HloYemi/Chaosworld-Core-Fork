@@ -91,6 +91,11 @@ public class ModPackets {
                 TerminalSettingsPacket.STREAM_CODEC,
                 TerminalSettingsPacket::handle
         );
+        registrar.playToServer(
+                VeinUpgradePacket.TYPE,
+                VeinUpgradePacket.STREAM_CODEC,
+                VeinUpgradePacket::handle
+        );
     }
 
     private static void handleCycleToolKey(final CycleToolKeyPacket packet, final IPayloadContext context) {

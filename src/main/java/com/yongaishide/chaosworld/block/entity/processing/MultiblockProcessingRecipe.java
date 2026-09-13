@@ -1,6 +1,9 @@
 package com.yongaishide.chaosworld.block.entity.processing;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
 import com.moakiee.ae2lt.machine.overloadfactory.recipe.OverloadProcessingRecipe;
+import com.yongaishide.chaosworld.recipe.DimensionalMatterAssemblerRecipe;
 import com.yongaishide.chaosworld.recipe.QMFRecipe;
 import com.yongaishide.chaosworld.recipe.UniversalMultiblockRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -85,6 +88,48 @@ public record MultiblockProcessingRecipe(
 
     public static MultiblockProcessingRecipe fromOverload(ResourceLocation id, OverloadProcessingRecipe recipe) {
         return fromUniversal(id, UniversalMultiblockRecipe.fromOverload(id, recipe));
+    }
+
+    /**
+     * Maps a Dimensional Matter Assembler recipe onto the Quantum Matter Fabricator,
+     * scaling all inputs, outputs and energy cost by {@link UniversalMultiblockRecipe#QMF_DMA_MULTIPLIER}.
+     */
+    public static MultiblockProcessingRecipe fromDma(ResourceLocation id, DimensionalMatterAssemblerRecipe recipe) {
+        List<ItemRequirement> itemInputs = recipe.getItemInputs().stream()
+                .filter(input -> input != null && !input.isEmpty())
+                .map(input -> new ItemRequirement(input.getIngredient(),
+                        Math.max(1L, input.getAmount()) * UniversalMultiblockRecipe.QMF_DMA_MULTIPLIER))
+                .toList();
+
+        List<FluidRequirement> fluidInputs = recipe.getFluidInputs().stream()
+                .filter(input -> input != null && !input.isEmpty())
+                .map(input -> {
+                    FluidStack[] stacks = input.getIngredient().getStacks();
+                    FluidStack fluid = stacks.length > 0 ? stacks[0] : FluidStack.EMPTY;
+                    return new FluidRequirement(fluid,
+                            Math.max(1L, input.getAmount()) * UniversalMultiblockRecipe.QMF_DMA_MULTIPLIER);
+                })
+                .filter(requirement -> !requirement.fluid().isEmpty())
+                .toList();
+
+        List<OutputStack> outputs = new ArrayList<>();
+        for (var output : recipe.getItemOutputs()) {
+            if (output.what() instanceof AEItemKey itemKey) {
+                outputs.add(new OutputStack(itemKey.toStack(1), FluidStack.EMPTY,
+                        Math.max(0L, output.amount()) * UniversalMultiblockRecipe.QMF_DMA_MULTIPLIER));
+            }
+        }
+        for (var output : recipe.getFluidOutputs()) {
+            if (output.what() instanceof AEFluidKey fluidKey) {
+                outputs.add(new OutputStack(ItemStack.EMPTY, fluidKey.toStack(1),
+                        Math.max(0L, output.amount()) * UniversalMultiblockRecipe.QMF_DMA_MULTIPLIER));
+            }
+        }
+
+        return new MultiblockProcessingRecipe(id, "universal/qmf/dma/" + id.getPath(), itemInputs, fluidInputs,
+                List.of(), outputs,
+                Math.max(0L, (long) recipe.getEnergy()) * UniversalMultiblockRecipe.QMF_DMA_MULTIPLIER,
+                recipe.getTime(), 1);
     }
 
     /**

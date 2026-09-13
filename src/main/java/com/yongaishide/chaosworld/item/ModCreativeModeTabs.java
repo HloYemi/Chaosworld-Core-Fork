@@ -39,6 +39,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModTools.UFO_FISHING_ROD.get());
                         output.accept(ModTools.UFO_BOW.get());
                         output.accept(ModItems.STRUCTURE_SCANNER.get());
+                        output.accept(ModItems.APOCALYPSE_TYPE_A_SPAWN_EGG.get());
 
                         // 护甲
                         output.accept(ModArmor.UFO_HELMET.get());
@@ -64,6 +65,20 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.UFO_ENERGY_CELL.get());
                         output.accept(createQuantumEnergyCellVariant(false));
                         output.accept(createQuantumEnergyCellVariant(true));
+
+                        // --- MEKANISM 机器 ---
+                        output.accept(com.yongaishide.chaosworld.mekanism.MekanismMachines.MECHANICAL_ASSEMBLER.asItem());
+                        var factoryBlocks = com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.FACTORY_BLOCKS;
+                        for (int i = 0; i < com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.getCount(); i++) {
+                            output.accept(factoryBlocks[i].asItem());
+                        }
+                        output.accept(com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.DRAGON_SOUL_FORGE.asItem());
+                        var forgeFactoryBlocks = com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.FACTORY_BLOCKS;
+                        for (int i = 0; i < com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.getCount(); i++) {
+                            output.accept(forgeFactoryBlocks[i].asItem());
+                        }
+                        output.accept(com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.VEIN_DRILL.asItem());
+                        output.accept(com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.VEIN_CORE.get());
 
                         // --- STELLAR NEXUS ---
                         output.accept(MultiblockBlocks.STELLAR_NEXUS_CONTROLLER.get());
@@ -107,6 +122,7 @@ public class ModCreativeModeTabs {
                         output.accept(ChaosWorld.REDHEJIN.get());
                         output.accept(ChaosWorld.MAGIC_EMERALD_CRYSTAL.get());
                         output.accept(ChaosWorld.CHARGING_MAGIC_EMERALD_CRYSTAL.get());
+                        output.accept(ChaosWorld.STELLAR_ALLOY_CORE.get());
                         output.accept(ChaosWorld.FORGEPLATE.get());
                         output.accept(ChaosWorld.FURNACE1.get());
                         output.accept(ChaosWorld.FURNACE2.get());
@@ -133,9 +149,22 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.PULSAR_FRAGMENT_DUST.get());
                         output.accept(ModItems.PULSAR_FRAGMENT_NUGGET.get());
                         output.accept(ModItems.PULSAR_FRAGMENT_BUCKET.get());
+                        output.accept(ModItems.BISMUTH.get());
 
                         // 热阻镀层
                         output.accept(ModArmor.THERMAL_RESISTOR_PLATING.get());
+
+                        // 液体桶
+                        output.accept(ModItems.LIQUID_STARLIGHT_BUCKET.get());
+                        output.accept(ModItems.PRIMORDIAL_MATTER_BUCKET.get());
+                        output.accept(ModItems.RAW_STAR_MATTER_PLASMA_BUCKET.get());
+                        output.accept(ModItems.TRANSCENDING_MATTER_BUCKET.get());
+                        output.accept(ModItems.UU_MATTER_BUCKET.get());
+                        output.accept(ModItems.UU_AMPLIFIER_BUCKET.get());
+                        output.accept(ModItems.GELID_CRYOTHEUM_BUCKET.get());
+                        output.accept(ModItems.STABLE_COOLANT_BUCKET.get());
+                        output.accept(ModItems.TEMPORAL_FLUID_BUCKET.get());
+                        output.accept(ModItems.SPATIAL_FLUID_BUCKET.get());
 
                         // 封装与物质
                         output.accept(ModItems.AETHER_CONTAINMENT_CAPSULE.get());
@@ -249,6 +278,10 @@ public class ModCreativeModeTabs {
                         output.accept(ChaosWorld.NANO_COMPUTER.get());
                         output.accept(ChaosWorld.NANO_MAINFRAME.get());
                         output.accept(ChaosWorld.NANO_PROCESSOR.get());
+
+                        // 微型计算机
+                        output.accept(ChaosWorld.MICRO_MAINFRAME.get());
+                        output.accept(ChaosWorld.MICRO_ASSEMBLY.get());
 
                         // 元件外壳
                         output.accept(ModCellItems.WHITE_DWARF_CELL_HOUSING.get());

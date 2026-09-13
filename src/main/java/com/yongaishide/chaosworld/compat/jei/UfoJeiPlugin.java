@@ -81,6 +81,11 @@ public class UfoJeiPlugin implements IModPlugin {
                 MultiblockBlocks.QUANTUM_CRYOFORGE_CONTROLLER.get().getName()));
         registry.addRecipeCategories(new StellarSimulationRecipeCategory(jeiHelpers));
         registry.addRecipeCategories(new WitherSummonRecipeCategory(jeiHelpers));
+        registry.addRecipeCategories(new AssemblingRecipeCategory(jeiHelpers));
+        registry.addRecipeCategories(new DragonSoulForgingRecipeCategory(jeiHelpers));
+        registry.addRecipeCategories(new VeinDrillRecipeCategory(jeiHelpers));
+        registry.addRecipeCategories(new VeinRepairRecipeCategory(jeiHelpers));
+        registry.addRecipeCategories(new FusionConversionRecipeCategory(jeiHelpers));
     }
 
     @Override
@@ -95,9 +100,12 @@ public class UfoJeiPlugin implements IModPlugin {
         var universalRecipes = List.copyOf(recipeManager.getAllRecipesFor(com.yongaishide.chaosworld.init.ModRecipes.UNIVERSAL_MULTIBLOCK_TYPE.get()).stream()
                 .map(RecipeHolder::value)
                 .toList());
-        registration.addRecipes(
-                UniversalMultiblockRecipeCategory.QMF_RECIPE_TYPE,
+        List<UniversalMultiblockRecipe> qmfRecipes = new ArrayList<>(
                 universalRecipes.stream().filter(recipe -> recipe.getMachine() == UniversalMultiblockMachineKind.QMF).toList());
+        for (var holder : recipeManager.getAllRecipesFor(com.yongaishide.chaosworld.init.ModRecipes.DMA_RECIPE_TYPE.get())) {
+            qmfRecipes.add(UniversalMultiblockRecipe.fromDma(holder.id(), holder.value()));
+        }
+        registration.addRecipes(UniversalMultiblockRecipeCategory.QMF_RECIPE_TYPE, qmfRecipes);
         List<UniversalMultiblockRecipe> slicerRecipes = new ArrayList<>(
                 universalRecipes.stream().filter(recipe -> recipe.getMachine() == UniversalMultiblockMachineKind.QUANTUM_SLICER).toList());
         if (net.neoforged.fml.ModList.get().isLoaded("extendedae")) {
@@ -134,6 +142,34 @@ public class UfoJeiPlugin implements IModPlugin {
         registration.addRecipes(
                 WitherSummonRecipeCategory.RECIPE_TYPE,
                 List.of(new WitherSummonInfo()));
+        //机械组装机(assembling)配方
+        registration.addRecipes(
+                AssemblingRecipeCategory.RECIPE_TYPE,
+                List.copyOf(recipeManager.getAllRecipesFor(com.yongaishide.chaosworld.mekanism.MekanismMachines.ASSEMBLING).stream()
+                        .map(RecipeHolder::value)
+                        .filter(com.yongaishide.chaosworld.mekanism.recipe.BasicAssemblingRecipe.class::isInstance)
+                        .map(com.yongaishide.chaosworld.mekanism.recipe.BasicAssemblingRecipe.class::cast)
+                        .toList()));
+        //龙魂锻炉(dragon_soul_forging)配方
+        registration.addRecipes(
+                DragonSoulForgingRecipeCategory.RECIPE_TYPE,
+                List.copyOf(recipeManager.getAllRecipesFor(
+                        com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.DRAGON_SOUL_FORGING).stream()
+                        .map(RecipeHolder::value)
+                        .filter(com.yongaishide.chaosworld.mekanism.recipe.BasicDragonSoulForgingRecipe.class::isInstance)
+                        .map(com.yongaishide.chaosworld.mekanism.recipe.BasicDragonSoulForgingRecipe.class::cast)
+                        .toList()));
+        //虚脉钻探机:各维度矿石池(直接读客户端资源,不依赖服务端运行时 loader)
+        List<VeinDrillPoolInfo> veinPools = com.yongaishide.chaosworld.compat.jei.VeinDrillRecipeCategory.allDimensions();
+        registration.addRecipes(VeinDrillRecipeCategory.RECIPE_TYPE, veinPools);
+        //修复品:数据包 repair_items
+        registration.addRecipes(VeinRepairRecipeCategory.RECIPE_TYPE, VeinRepairRecipeCategory.all());
+        //聚变转化:数据包 fusion_conversion
+        registration.addRecipes(
+                FusionConversionRecipeCategory.RECIPE_TYPE,
+                List.copyOf(recipeManager.getAllRecipesFor(com.yongaishide.chaosworld.init.ModRecipes.FUSION_CONVERSION_TYPE.get()).stream()
+                        .map(RecipeHolder::value)
+                        .toList()));
     }
 
     @Override
@@ -161,6 +197,36 @@ public class UfoJeiPlugin implements IModPlugin {
         var quantumCryoforgeController = MultiblockBlocks.QUANTUM_CRYOFORGE_CONTROLLER.get().asItem().getDefaultInstance();
         registration.addRecipeCatalyst(quantumCryoforgeController, UniversalMultiblockRecipeCategory.QUANTUM_CRYOFORGE_RECIPE_TYPE);
         registration.addRecipeCatalyst(quantumCryoforgeController, MultiblockStructureCategory.TYPE);
+
+        registration.addRecipeCatalyst(
+                com.yongaishide.chaosworld.mekanism.MekanismMachines.MECHANICAL_ASSEMBLER.asItem().getDefaultInstance(),
+                AssemblingRecipeCategory.RECIPE_TYPE);
+        //8 个工厂等级按顺序加入配方预览催化剂
+        var factoryBlocks = com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.FACTORY_BLOCKS;
+        for (int i = 0; i < com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.getCount(); i++) {
+            registration.addRecipeCatalyst(factoryBlocks[i].asItem().getDefaultInstance(), AssemblingRecipeCategory.RECIPE_TYPE);
+        }
+        //龙魂锻炉:单机 + 8 个工厂等级作为催化剂
+        var forgeBlocks = com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.FACTORY_BLOCKS;
+        registration.addRecipeCatalyst(
+                com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.DRAGON_SOUL_FORGE.asItem().getDefaultInstance(),
+                DragonSoulForgingRecipeCategory.RECIPE_TYPE);
+        for (int i = 0; i < com.yongaishide.chaosworld.mekanism.DragonSoulForgeMachines.getCount(); i++) {
+            registration.addRecipeCatalyst(forgeBlocks[i].asItem().getDefaultInstance(), DragonSoulForgingRecipeCategory.RECIPE_TYPE);
+        }
+        registration.addRecipeCatalyst(
+                com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.VEIN_DRILL.asItem().getDefaultInstance(),
+                VeinDrillRecipeCategory.RECIPE_TYPE);
+        //修复值页仅从虚脉钻探机进入(JEI 搜铁锭等不会出现该类别)
+        registration.addRecipeCatalyst(
+                com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.VEIN_DRILL.asItem().getDefaultInstance(),
+                VeinRepairRecipeCategory.RECIPE_TYPE);
+        //聚变转化:Mekanism 聚变反应堆控制器(仅在该模组存在时注册)
+        var fusionController = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
+                ResourceLocation.fromNamespaceAndPath("mekanismgenerators", "fusion_reactor_controller"));
+        if (fusionController != net.minecraft.world.item.Items.AIR) {
+            registration.addRecipeCatalyst(new ItemStack(fusionController), FusionConversionRecipeCategory.RECIPE_TYPE);
+        }
     }
 
     public static ItemStack getHoveredItemStack() {

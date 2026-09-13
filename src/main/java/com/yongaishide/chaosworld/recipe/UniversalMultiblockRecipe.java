@@ -1,5 +1,7 @@
 package com.yongaishide.chaosworld.recipe;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -191,6 +193,60 @@ public class UniversalMultiblockRecipe implements Recipe<RecipeInput> {
                 recipe.totalEnergy() * OVERLOAD_ENERGY_MULTIPLIER,
                 OVERLOAD_PROCESSING_TICKS,
                 tierForLightningCost(recipe.lightningCost()));
+    }
+
+    /**
+     * The Quantum Matter Fabricator maps every Dimensional Matter Assembler recipe
+     * and scales all inputs, outputs and energy cost by this factor.
+     */
+    public static final long QMF_DMA_MULTIPLIER = 64L;
+
+    public static UniversalMultiblockRecipe fromDma(ResourceLocation id, DimensionalMatterAssemblerRecipe recipe) {
+        List<ItemRequirement> itemInputs = recipe.getItemInputs().stream()
+                .filter(input -> input != null && !input.isEmpty())
+                .map(input -> new ItemRequirement(input.getIngredient(),
+                        Math.max(1L, input.getAmount()) * QMF_DMA_MULTIPLIER))
+                .toList();
+
+        List<FluidRequirement> fluidInputs = recipe.getFluidInputs().stream()
+                .filter(input -> input != null && !input.isEmpty())
+                .map(input -> {
+                    FluidStack[] stacks = input.getIngredient().getStacks();
+                    FluidStack fluid = stacks.length > 0 ? stacks[0] : FluidStack.EMPTY;
+                    return new FluidRequirement(fluid, Math.max(1L, input.getAmount()) * QMF_DMA_MULTIPLIER);
+                })
+                .filter(requirement -> !requirement.fluid().isEmpty())
+                .toList();
+
+        ItemStack itemOutput = ItemStack.EMPTY;
+        long itemOutputAmount = 0L;
+        if (!recipe.getItemOutputs().isEmpty() && recipe.getItemOutputs().getFirst().what() instanceof AEItemKey itemKey) {
+            long amount = recipe.getItemOutputs().getFirst().amount();
+            itemOutput = itemKey.toStack(1);
+            itemOutputAmount = Math.max(0L, amount) * QMF_DMA_MULTIPLIER;
+        }
+
+        FluidStack fluidOutput = FluidStack.EMPTY;
+        long fluidOutputAmount = 0L;
+        if (!recipe.getFluidOutputs().isEmpty() && recipe.getFluidOutputs().getFirst().what() instanceof AEFluidKey fluidKey) {
+            long amount = recipe.getFluidOutputs().getFirst().amount();
+            fluidOutput = fluidKey.toStack(1);
+            fluidOutputAmount = Math.max(0L, amount) * QMF_DMA_MULTIPLIER;
+        }
+
+        return new UniversalMultiblockRecipe(
+                UniversalMultiblockMachineKind.QMF,
+                "universal/qmf/dma/" + id.getPath(),
+                itemInputs,
+                fluidInputs,
+                List.of(),
+                itemOutput,
+                itemOutputAmount,
+                fluidOutput,
+                fluidOutputAmount,
+                Math.max(0L, (long) recipe.getEnergy()) * QMF_DMA_MULTIPLIER,
+                recipe.getTime(),
+                MultiblockMachineTier.MK1.level());
     }
 
     private static int tierForLightningCost(int lightningCost) {

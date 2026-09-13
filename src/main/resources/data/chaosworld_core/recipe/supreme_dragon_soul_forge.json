@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/supreme"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:absolute_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:ingots/netherite"
+                      },
+                "A":  {
+                          "tag":  "mekanism_extras:alloys/thermonuclear"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:supreme_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

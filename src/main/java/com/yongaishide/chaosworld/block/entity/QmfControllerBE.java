@@ -55,6 +55,10 @@ public class QmfControllerBE extends AbstractParallelMultiblockControllerBE {
         for (RecipeHolder<?> holder : this.level.getRecipeManager().getAllRecipesFor(ModRecipes.QMF_TYPE.get())) {
             recipes.add(MultiblockProcessingRecipe.fromQmf(holder.id(), (com.yongaishide.chaosworld.recipe.QMFRecipe) holder.value()));
         }
+        for (RecipeHolder<?> holder : this.level.getRecipeManager().getAllRecipesFor(ModRecipes.DMA_RECIPE_TYPE.get())) {
+            var recipe = (com.yongaishide.chaosworld.recipe.DimensionalMatterAssemblerRecipe) holder.value();
+            recipes.add(MultiblockProcessingRecipe.fromDma(holder.id(), recipe));
+        }
         for (RecipeHolder<?> holder : this.level.getRecipeManager().getAllRecipesFor(ModRecipes.UNIVERSAL_MULTIBLOCK_TYPE.get())) {
             var recipe = (com.yongaishide.chaosworld.recipe.UniversalMultiblockRecipe) holder.value();
             if (recipe.getMachine() == UniversalMultiblockMachineKind.QMF) {

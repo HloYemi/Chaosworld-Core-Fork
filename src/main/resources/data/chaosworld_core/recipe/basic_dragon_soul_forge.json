@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/basic"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:ingots/iron"
+                      },
+                "A":  {
+                          "tag":  "mekanism:alloys/basic"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:basic_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

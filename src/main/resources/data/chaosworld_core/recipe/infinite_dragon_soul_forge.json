@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/infinite"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:cosmic_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:pellets/plutonium"
+                      },
+                "A":  {
+                          "tag":  "mekanism_extras:alloys/spectrum"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:infinite_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

@@ -28,12 +28,6 @@
       "ingredient": {
         "item": "chaosworld_core:obsidian_matrix"
       }
-    },
-    {
-      "amount": 8,
-      "ingredient": {
-        "item": "chaosworld_core:dimensional_processor"
-      }
     }
   ],
   "item_outputs": [

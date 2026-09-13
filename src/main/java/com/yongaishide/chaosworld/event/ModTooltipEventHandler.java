@@ -71,11 +71,6 @@ public class ModTooltipEventHandler {
             event.getToolTip().add(Component.translatable("tooltip.ufo.creative_energy_cell.header").withStyle(ChatFormatting.LIGHT_PURPLE));
             event.getToolTip().add(Component.translatable("tooltip.ufo.creative_energy_cell.desc").withStyle(ChatFormatting.GRAY));
         }
-        else if (stack.is(ModItems.NEUTRONITE_INGOT.get())) {
-            event.getToolTip().add(Component.translatable("tooltip.ufo.neutronite.lore1").withStyle(ChatFormatting.GRAY));
-            event.getToolTip().add(Component.translatable("tooltip.ufo.neutronite.lore2").withStyle(ChatFormatting.GRAY));
-            event.getToolTip().add(Component.translatable("tooltip.ufo.neutronite.lore3").withStyle(ChatFormatting.DARK_PURPLE));
-        }
     }
 
     private static boolean isAeHatch(ItemStack stack) {

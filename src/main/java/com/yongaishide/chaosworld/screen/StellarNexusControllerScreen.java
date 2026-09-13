@@ -364,7 +364,7 @@ public class StellarNexusControllerScreen extends AbstractContainerScreen<Stella
             float heatPct = heat / 10.0f;
             List<Component> tips = new ArrayList<>();
             tips.add(Component.translatable("gui.ufo.stellar.tooltip.thermal_title"));
-            tips.add(Component.translatable("gui.ufo.stellar.tooltip.thermal_level", String.format("%.1f%%", heatPct)));
+            tips.add(Component.translatable("gui.ufo.stellar.tooltip.thermal_level", String.format("%.1f", heatPct)));
             tips.add(Component.translatable("gui.ufo.stellar.tooltip.thermal_coolant"));
             if (this.menu.isSafeMode()) {
                 tips.add(Component.translatable("gui.ufo.stellar.tooltip.thermal_safe"));

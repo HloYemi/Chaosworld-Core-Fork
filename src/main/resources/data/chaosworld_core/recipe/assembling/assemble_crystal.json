@@ -1,0 +1,8 @@
+{
+  "type": "chaosworld_core:assembling",
+  "itemInputs": [
+    {"item": "minecraft:coal"}
+  ],
+  "chemicalInput": {"chemical": "mekanism:oxygen", "amount": 50},
+  "output": {"id": "chaosworld_core:crystal"}
+}

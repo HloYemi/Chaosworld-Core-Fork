@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/ultimate"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:elite_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:gems/diamond"
+                      },
+                "A":  {
+                          "tag":  "mekanism:alloys/atomic"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:ultimate_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

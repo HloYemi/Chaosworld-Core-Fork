@@ -16,12 +16,6 @@
       "ingredient": {
         "item": "chaosworld_core:enriched_neutronium_sphere"
       }
-    },
-    {
-      "amount": 4,
-      "ingredient": {
-        "item": "chaosworld_core:dimensional_processor"
-      }
     }
   ],
   "item_outputs": [

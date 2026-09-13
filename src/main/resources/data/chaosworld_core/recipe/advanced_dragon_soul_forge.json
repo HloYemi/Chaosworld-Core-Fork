@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "C":  {
+                          "tag":  "c:circuits/advanced"
+                      },
+                "P":  {
+                          "item":  "chaosworld_core:basic_dragon_soul_forge"
+                      },
+                "I":  {
+                          "tag":  "c:ingots/osmium"
+                      },
+                "A":  {
+                          "tag":  "mekanism:alloys/infused"
+                      }
+            },
+    "pattern":  [
+                    "ACA",
+                    "IPI",
+                    "ACA"
+                ],
+    "result":  {
+                   "id":  "chaosworld_core:advanced_dragon_soul_forge"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

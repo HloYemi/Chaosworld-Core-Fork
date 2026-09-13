@@ -18,7 +18,7 @@ The **QMF** is the multiblock evolution of the DMA for heavy automation, bulk cr
 
 - Up to **27 parallel threads** in standard mode
 - **9 parallel threads** in Safe Mode
-- Accepts both native **QMF recipes** and **DMA recipes**
+- Accepts both native **QMF recipes** and **DMA recipes** (all DMA inputs, outputs and energy are scaled **x64**)
 - Supports AE2 autocrafting through the **Quantum Pattern Hatch**
 - Reads ingredients directly from the connected ME network
 - Pushes outputs back into ME automatically
