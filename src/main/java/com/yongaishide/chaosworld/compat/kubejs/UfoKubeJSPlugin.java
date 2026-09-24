@@ -98,16 +98,17 @@ public class UfoKubeJSPlugin implements KubeJSPlugin {
     // readFromJson()/writeToJson() are no longer called. These codecs match the mod's native format.
 
     private static Codec<ItemStack> singleItem() {
-        return Codec.STRING.xmap(
-                id -> new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.tryParse(id))),
-                stack -> stack.getItemHolder().unwrapKey()
-                        .map(key -> key.location().toString()).orElse("minecraft:air"));
+        return RecordCodecBuilder.create(inst -> inst.group(
+                Codec.STRING.fieldOf("item").forGetter(stack -> stack.getItemHolder().unwrapKey()
+                        .map(key -> key.location().toString()).orElse("minecraft:air"))
+        ).apply(inst, id -> new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.tryParse(id)))));
     }
 
     private static Codec<FluidStack> singleFluid() {
-        return Codec.STRING.xmap(
-                id -> new FluidStack(BuiltInRegistries.FLUID.get(ResourceLocation.tryParse(id)), 1000),
-                stack -> stack.getFluid().builtInRegistryHolder().key().location().toString());
+        return RecordCodecBuilder.create(inst -> inst.group(
+                Codec.STRING.fieldOf("fluid").forGetter(stack ->
+                        stack.getFluid().builtInRegistryHolder().key().location().toString())
+        ).apply(inst, id -> new FluidStack(BuiltInRegistries.FLUID.get(ResourceLocation.tryParse(id)), 1000)));
     }
 
     // item_inputs element: {"amount": n, "ingredient": {"item": id}}

@@ -77,7 +77,7 @@ public class DragonSoulForgingRecipeCategory extends BaseRecipeCategory<BasicDra
                         .map(stack -> stack.copyWithCount(catalyst.amount()))
                         .toList())
                   .setSlotName("catalyst")
-                  .addTooltipCallback((view, tooltip) -> tooltip.add(
+                  .addRichTooltipCallback((view, tooltip) -> tooltip.add(
                         net.minecraft.network.chat.Component.translatable(
                               catalyst.consume()
                                     ? "jei.chaosworld_core.dragon_soul_forging.catalyst_consume"

@@ -118,25 +118,18 @@ config="${mod_id}.mixins.json"
     versionRange="[19.2.17,19.3)"
 
 [[dependencies.${mod_id}]]
-    modId="thunderbolt"
-    type="required"
-    ordering="AFTER"
-    side="BOTH"
-    versionRange="[1.0.1,2.0.0)"
-
-[[dependencies.${mod_id}]]
     modId="ae2lt"
     type="required"
     ordering="AFTER"
     side="BOTH"
-    versionRange="[2.0.9,)"
+    versionRange="[2.1.0-beta.5,)"
 
 [[dependencies.${mod_id}]]
     modId="neoecoae"
     type="required"
     ordering="AFTER"
     side="BOTH"
-    versionRange="[21.2.0,)"
+    versionRange="[21.2.0-beta1,)"
 
 [[dependencies.${mod_id}]]
     modId="ae2omnicells"

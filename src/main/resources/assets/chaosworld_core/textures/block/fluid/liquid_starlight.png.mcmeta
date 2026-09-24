@@ -1,8 +1,6 @@
 {
-    "texture": {
-        "blur": true
-    },
-    "animation": {
-        "frametime": 1
-    }
+  "animation": {
+    "frametime": 3,
+    "interpolate": true
+  }
 }

@@ -54,6 +54,12 @@ public class UniversalMultiblockRecipeCategory implements IRecipeCategory<Univer
                 }
 
                 @Override
+                public void getTooltip(ITooltipBuilder tooltip, ItemStack stack, net.minecraft.world.item.Item.TooltipContext context, net.minecraft.world.entity.player.Player player, net.minecraft.world.item.TooltipFlag flag) {
+                    tooltip.add(stack.getHoverName());
+                }
+
+                @Override
+                @SuppressWarnings("removal")
                 public java.util.List<Component> getTooltip(ItemStack stack, net.minecraft.world.item.TooltipFlag flag) {
                     return java.util.List.of(stack.getHoverName());
                 }

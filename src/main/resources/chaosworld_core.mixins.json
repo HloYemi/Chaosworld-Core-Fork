@@ -12,6 +12,7 @@
     "FusionPlasmaItemMixin",
     "projectexpansion.TransmutationInterfaceItemHandlerMixin",
     "projectexpansion.TransmutationInterfaceMEStorageMixin",
+    "projecteintegration.IAFDragonForgeMapperMixin",
     "ae2.ForgeExternalStorageStrategyMixin",
     "ae2.SetAmountMixin",
     "ae2.SetStockAmountMenuMixin",
@@ -26,7 +27,6 @@
     "ae2.TileExIOPortMixin",
     "neoecoae.ECOStorageSystemBlockEntityMixin",
     "neoecoae.ECODriveBlockEntityMixin",
-    "neoecoae.StorageHostConsumptionRowMixin",
     "twilightforest.BossRewardChestMixin",
     "twilightforest.IBossLootBufferMixin"
   ],

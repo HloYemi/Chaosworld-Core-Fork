@@ -115,7 +115,7 @@
     "cell_type.chaosworld_core.quantum_omni":  "Quantum Omni",
     "chaosworld_core.storage.enhancement_core.activated":  "§bCreative Energy Cell activated: storage subsystem idle power set to 0",
     "chaosworld_core.storage.enhancement_core.removed":  "§7Creative Energy Cell removed: storage subsystem idle power restored",
-    "chaosworld_core.storage.energy_consumption":  "Energy Consumption",
+
     "chaosworld_core.cell_tier.echo":  "Echo",
     "chaosworld_core.cell_tier.beacon":  "Beacon",
     "chaosworld_core.cell_tier.nexus":  "Nexus",

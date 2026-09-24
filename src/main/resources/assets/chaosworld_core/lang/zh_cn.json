@@ -101,7 +101,6 @@
     "cell_type.chaosworld_core.quantum_omni": "量子全能",
     "chaosworld_core.storage.enhancement_core.activated": "§b创造能量单元已激活：子系统待机耗电降为 0",
     "chaosworld_core.storage.enhancement_core.removed": "§7创造能量单元已移除：子系统待机耗电恢复",
-    "chaosworld_core.storage.energy_consumption": "能量消耗",
     "chaosworld_core.cell_tier.echo": "回响级",
     "chaosworld_core.cell_tier.beacon": "信标级",
     "chaosworld_core.cell_tier.nexus": "枢纽级",

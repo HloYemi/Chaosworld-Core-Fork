@@ -26,6 +26,7 @@ public class ChaosWorldMixinPlugin implements IMixinConfigPlugin {
     private static final String TWILIGHT_BOSS_CHEST_MIXIN = "com.yongaishide.chaosworld.mixin.twilightforest.BossRewardChestMixin";
     private static final String TWILIGHT_BOSS_LOOT_MIXIN = "com.yongaishide.chaosworld.mixin.twilightforest.BossLootBufferMixin";
     private static final String TWILIGHT_MIXIN_PACKAGE = "com.yongaishide.chaosworld.mixin.twilightforest";
+    private static final String PROJECTE_INTEGRATION_MIXIN_PACKAGE = "com.yongaishide.chaosworld.mixin.projecteintegration";
 
     /**
      * Mixin plugins run before all mods have finished loading, so {@link ModList#isLoaded(String)}
@@ -52,6 +53,9 @@ public class ChaosWorldMixinPlugin implements IMixinConfigPlugin {
             boolean avaritia = isModLoaded("avaritia");
             LOGGER.info("[ChaosWorld] BossRewardChestMixin apply check: twilightforest={}, avaritia={}", twilight, avaritia);
             return twilight && avaritia;
+        }
+        if (mixinClassName.startsWith(PROJECTE_INTEGRATION_MIXIN_PACKAGE)) {
+            return isModLoaded("projecteintegration");
         }
         if (mixinClassName.startsWith(TWILIGHT_MIXIN_PACKAGE)) {
             return isModLoaded("twilightforest");
