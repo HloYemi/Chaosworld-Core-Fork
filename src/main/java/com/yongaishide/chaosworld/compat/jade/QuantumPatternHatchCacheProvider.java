@@ -25,7 +25,7 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AmountFormat;
 import appeng.api.stacks.GenericStack;
 
-import com.yongaishide.chaosworld.block.entity.QuantumPatternHatchBE;
+import com.raishxn.ufo.block.entity.QuantumPatternHatchBE;
 
 /**
  * Server-side data provider + client-side tooltip renderer for the Quantum Pattern Hatch.

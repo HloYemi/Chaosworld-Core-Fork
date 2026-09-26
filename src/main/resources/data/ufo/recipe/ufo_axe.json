@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "ufo:dimensional_processor"
+    },
+    "M": {
+      "item": "chaosworld_core:white_dwarf_storage_component_4g"
+    },
+    "P": {
+      "item": "ufo:neutron_star_fragment_ingot"
+    },
+    "S": {
+      "item": "ufo:ufo_staff"
+    }
+  },
+  "pattern": [
+    "MS ",
+    "SP ",
+    " D "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ufo:ufo_axe"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "type": "ufo:dimensional_assembly",
+  "energy": 200000,
+  "fluid_inputs": [
+    {
+      "amount": 1200,
+      "ingredient": {
+        "fluid": "ufo:source_liquid_starlight_fluid"
+      }
+    }
+  ],
+  "fluid_outputs": [],
+  "item_inputs": [
+    {
+      "amount": 2,
+      "ingredient": {
+        "item": "ufo:neutron_star_fragment_ingot"
+      }
+    },
+    {
+      "amount": 2,
+      "ingredient": {
+        "item": "minecraft:lodestone"
+      }
+    },
+    {
+      "amount": 4,
+      "ingredient": {
+        "item": "minecraft:lightning_rod"
+      }
+    }
+  ],
+  "item_outputs": [
+    {
+      "#": 2,
+      "#t": "ae2:i",
+      "id": "ufo:pulsar_fragment_ingot"
+    }
+  ],
+  "time": 640
+}

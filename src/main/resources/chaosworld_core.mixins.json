@@ -4,9 +4,7 @@
   "plugin": "com.yongaishide.chaosworld.mixin.ChaosWorldMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MixinAppEngBase",
-    "MixinKeyTypeSelection",
-    "InvokerCraftingCPUCluster",
+    "RecipeManagerMixin",
     "WitherSkullBlockMixin",
     "WitherBossMixin",
     "FusionPlasmaItemMixin",
@@ -28,15 +26,19 @@
     "neoecoae.ECOStorageSystemBlockEntityMixin",
     "neoecoae.ECODriveBlockEntityMixin",
     "twilightforest.BossRewardChestMixin",
-    "twilightforest.IBossLootBufferMixin"
+    "twilightforest.IBossLootBufferMixin",
+    "ufo.BaseCatalystItemMixin",
+    "ufo.QmfControllerBEMixin",
+    "ufo.QuantumSlicerControllerBEMixin",
+    "ufo.QuantumProcessorAssemblerControllerBEMixin",
+    "ufo.QuantumPatternPredicatesMixin",
+    "ufo.QuantumPatternHatchMenuMixin"
   ],
   "client": [
-    "MixinCPUSelectionList",
-    "MixinMEStorageScreen",
-    "MixinModelBakery",
-    "AccessorAbstractContainerScreen",
-    "AccessorBuiltInModelHooks",
-    "client.CreativeEnergyCellNameMixin"
+    "client.CreativeEnergyCellNameMixin",
+    "ufo.client.QuantumPatternHatchScreenMixin",
+    "ufo.client.GhostHologramRendererMixin",
+    "ufo.client.ModTooltipEventHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

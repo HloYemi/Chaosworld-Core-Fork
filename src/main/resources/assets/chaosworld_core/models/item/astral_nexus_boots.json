@@ -1,6 +1,0 @@
-{
-    "textures":  {
-                     "layer0":  "chaosworld_core:item/astral_nexus_boots"
-                 },
-    "parent":  "minecraft:item/generated"
-}

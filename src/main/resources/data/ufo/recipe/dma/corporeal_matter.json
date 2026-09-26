@@ -1,0 +1,41 @@
+{
+  "type": "ufo:dimensional_assembly",
+  "energy": 20000000,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": {
+        "fluid": "ufo:uu_matter"
+      }
+    }
+  ],
+  "fluid_outputs": [],
+  "item_inputs": [
+    {
+      "amount": 2,
+      "ingredient": {
+        "item": "ufo:proto_matter"
+      }
+    },
+    {
+      "amount": 64,
+      "ingredient": {
+        "item": "minecraft:iron_block"
+      }
+    },
+    {
+      "amount": 16,
+      "ingredient": {
+        "item": "ufo:obsidian_matrix"
+      }
+    }
+  ],
+  "item_outputs": [
+    {
+      "#": 1,
+      "#t": "ae2:i",
+      "id": "ufo:corporeal_matter"
+    }
+  ],
+  "time": 3600
+}

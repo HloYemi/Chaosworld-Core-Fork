@@ -133,7 +133,13 @@ configurations {
 
 dependencies {
     // Local jars in libs/ (Flux Networks, MI, MoreFluxStorage, etc.)
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // The UFO Future jar is compile-time stubbed (access-widened) so the patch
+    // layer can mix into its private members; the real jar is used at runtime only.
+    implementation fileTree(dir: 'libs', include: ['*.jar'], exclude: ['ufo-2.1-fix7.jar', 'ufo-3.0.0-beta.3.jar', 'raishxcore-0.1.0-beta.2.jar', 'ufo-stubs.jar'])
+    compileOnly files('libs/ufo-3.0.0-beta.3.jar')
+    compileOnly files('libs/raishxcore-0.1.0-beta.2.jar')
+    localRuntime files('libs/ufo-3.0.0-beta.3.jar')
+    localRuntime files('libs/raishxcore-0.1.0-beta.2.jar')
     compileOnly files('run/mods/ProjectE-1.21.1-PE1.1.0.jar')
     compileOnly files('run/mods/projectexpansion-1.21.1-1.0.6.jar')
     compileOnly files('run/mods/appliedenergistics2-19.2.17.jar')

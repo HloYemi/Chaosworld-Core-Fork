@@ -1,5 +1,0 @@
-{
-  "parent": "neoforge:item/bucket",
-  "fluid": "chaosworld_core:transcending_matter",
-  "loader": "neoforge:fluid_container"
-}

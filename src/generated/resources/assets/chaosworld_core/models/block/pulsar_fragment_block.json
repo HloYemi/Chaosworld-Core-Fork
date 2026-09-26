@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "chaosworld_core:block/fluid/pulsar_fragment"
-  }
-}

@@ -1,28 +1,13 @@
 package com.yongaishide.chaosworld;
 
-import com.yongaishide.chaosworld.block.ModBlocks;
-import com.yongaishide.chaosworld.block.MultiblockBlocks;
-import com.yongaishide.chaosworld.datagen.ModDataComponents;
-import com.yongaishide.chaosworld.event.ModKeyBindings;
-import com.yongaishide.chaosworld.init.ModBlockEntities;
-import com.yongaishide.chaosworld.init.ModEntities;
-import com.yongaishide.chaosworld.init.ModMenus;
 import com.yongaishide.chaosworld.init.ModRecipes;
-import com.yongaishide.chaosworld.init.ModSounds;
 import com.yongaishide.chaosworld.item.BaseItem;
-import com.yongaishide.chaosworld.item.ModArmor;
 import com.yongaishide.chaosworld.item.ModCellItems;
 import com.yongaishide.chaosworld.item.ModCreativeModeTabs;
-import com.yongaishide.chaosworld.item.ModItems;
 import com.yongaishide.chaosworld.item.UFORegistryHandler;
 import com.yongaishide.chaosworld.metal.ModMetals;
 import com.yongaishide.chaosworld.metal.ModTech;
 import com.yongaishide.chaosworld.network.ModPackets;
-import com.yongaishide.chaosworld.network.packet.CycleModeKeyPacket;
-import com.yongaishide.chaosworld.network.packet.CycleToolKeyPacket;
-import com.yongaishide.chaosworld.network.packet.ToggleAutoSmeltPacket;
-import com.yongaishide.chaosworld.util.LazyInits;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,12 +23,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import org.lwjgl.glfw.GLFW;
-
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -131,6 +111,7 @@ public class ChaosWorld {
     public static final DeferredHolder<Item, BaseItem> ADVANCED_INTEGRATED = item("advanced_integrated");
     public static final DeferredHolder<Item, BaseItem> MAGIC_EMERALD_CRYSTAL = item("magic_emerald_crystal");
     public static final DeferredHolder<Item, BaseItem> STELLAR_ALLOY_CORE = item("stellar_alloy_core");
+    public static final DeferredHolder<Item, BaseItem> NEUTRONITE_INGOT = item("neutronite_ingot");
 
     private static DeferredHolder<Item, BaseItem> item(String id) {
         return ITEMS.register(id, () -> new BaseItem(new Item.Properties(), false));
@@ -142,10 +123,9 @@ public class ChaosWorld {
 
     public ChaosWorld(IEventBus modEventBus, ModContainer modContainer) {
         if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
-            new UfoModClient(modEventBus);
+            new ChaosWorldClient(modEventBus);
         }
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::loadComplete);
         modEventBus.addListener(this::registerPackets);
 
         BLOCKS.register(modEventBus);
@@ -154,20 +134,10 @@ public class ChaosWorld {
         ModMetals.register();
         ModTech.register();
 
-        ModDataComponents.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
-        com.yongaishide.chaosworld.fluid.ModFluidTypes.register(modEventBus);
-        com.yongaishide.chaosworld.fluid.ModFluids.register(modEventBus);
-        MultiblockBlocks.register(modEventBus);
-        ModItems.register(modEventBus);
         ModCellItems.register(modEventBus);
-        ModBlockEntities.register(modEventBus);
-        ModEntities.register(modEventBus);
         ModRecipes.register(modEventBus);
-        ModMenus.register(modEventBus);
-        ModSounds.register(modEventBus);
-        modEventBus.addListener(ModEntities::registerAttributes);
-        ModBlocks.INSTANCE.register(modEventBus);
+        com.yongaishide.chaosworld.patch.contents.LegacyTieredContent.register(modEventBus);
         com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.init();
         com.yongaishide.chaosworld.mekanism.MekanismMachines.register(modEventBus);
         com.yongaishide.chaosworld.mekanism.AssemblingFactoryMachines.init();
@@ -182,7 +152,6 @@ public class ChaosWorld {
         com.yongaishide.chaosworld.mekanism.vein.VeinDrillMachines.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        NeoForge.EVENT_BUS.register(this);
     }
 
     private void registerPackets(final RegisterPayloadHandlersEvent event) {
@@ -191,47 +160,7 @@ public class ChaosWorld {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         LOGGER.info("HELLO FROM COMMON SETUP");
-        event.enqueueWork(() -> {
-            UFORegistryHandler.INSTANCE.onInit();
-            java.util.Objects.requireNonNull(com.yongaishide.chaosworld.menu.UFOSlotSemantics.MACHINE_OUTPUT_2);
-            LazyInits.initCommon();
-        });
-    }
-
-    private void loadComplete(final FMLLoadCompleteEvent event) {
-        event.enqueueWork(LazyInits::initFinal);
-    }
-
-    @SubscribeEvent
-    public void onKeyInput(InputEvent.Key event) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null) return;
-        if (ModKeyBindings.CYCLE_TOOL_FORWARD.consumeClick()) {
-            ModPackets.sendToServer(new CycleToolKeyPacket(true));
-        }
-        if (ModKeyBindings.CYCLE_TOOL_BACKWARD.consumeClick()) {
-            ModPackets.sendToServer(new CycleToolKeyPacket(false));
-        }
-        if (ModKeyBindings.CYCLE_MODE.consumeClick()) {
-            ModPackets.sendToServer(new CycleModeKeyPacket());
-        }
-        if (ModKeyBindings.TOGGLE_AUTO_SMELT.consumeClick()) {
-            ModPackets.sendToServer(new ToggleAutoSmeltPacket());
-        }
-    }
-
-    @SubscribeEvent
-    public void onMouseButton(InputEvent.MouseButton.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.screen != null) return;
-        if (event.getAction() != GLFW.GLFW_PRESS) return;
-        if (event.getButton() != GLFW.GLFW_MOUSE_BUTTON_RIGHT) return;
-        long window = mc.getWindow().getWindow();
-        if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_ALT)
-                || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_ALT)) {
-            ModPackets.sendToServer(new CycleToolKeyPacket(true));
-            event.setCanceled(true);
-        }
+        event.enqueueWork(UFORegistryHandler.INSTANCE::onInit);
     }
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)

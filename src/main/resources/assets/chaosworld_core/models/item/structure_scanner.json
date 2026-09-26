@@ -1,6 +1,0 @@
-{
-    "textures":  {
-                     "layer0":  "chaosworld_core:item/structure_scanner"
-                 },
-    "parent":  "minecraft:item/generated"
-}

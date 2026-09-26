@@ -1,0 +1,47 @@
+{
+  "type": "ufo:dimensional_assembly",
+  "energy": 80000000,
+  "fluid_inputs": [
+    {
+      "amount": 16000,
+      "ingredient": {
+        "fluid": "ufo:source_liquid_starlight_fluid"
+      }
+    }
+  ],
+  "fluid_outputs": [],
+  "item_inputs": [
+    {
+      "amount": 4,
+      "ingredient": {
+        "item": "ufo:enriched_neutronium_sphere"
+      }
+    },
+    {
+      "amount": 2,
+      "ingredient": {
+        "item": "ufo:nuclear_star"
+      }
+    },
+    {
+      "amount": 8,
+      "ingredient": {
+        "item": "ufo:pulsar_matter"
+      }
+    },
+    {
+      "amount": 16,
+      "ingredient": {
+        "item": "ufo:dimensional_processor"
+      }
+    }
+  ],
+  "item_outputs": [
+    {
+      "#": 1,
+      "#t": "ae2:i",
+      "id": "ufo:charged_enriched_neutronium_sphere"
+    }
+  ],
+  "time": 12000
+}

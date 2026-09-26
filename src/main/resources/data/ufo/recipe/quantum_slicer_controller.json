@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "ufo:dimensional_processor"
+    },
+    "E": {
+      "item": "ufo:dimensional_matter_assembler"
+    },
+    "F": {
+      "item": "ufo:quantum_lattice_frame"
+    },
+    "G": {
+      "item": "chaosworld_core:white_dwarf_storage_component_64g"
+    },
+    "P": {
+      "item": "chaosworld_core:white_dwarf_storage_component_1g"
+    },
+    "Q": {
+      "item": "ufo:quantum_hyper_mechanical_casing"
+    }
+  },
+  "pattern": [
+    "PGP",
+    "QDQ",
+    "FEF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ufo:quantum_slicer_controller"
+  }
+}

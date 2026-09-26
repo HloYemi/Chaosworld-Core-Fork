@@ -2,7 +2,7 @@
 
 **Minecraft 1.21.1 · NeoForge · 以 AE2 为核心的终局扩展模组**
 
-乱界核心（Chaos World Core）是 ChaosWorld 整合包的核心模组，整合了 UFO Future 模组的全部内容，为 AE2 的终局玩法提供热力学机械、恒星物质、巨型存储与多方块自动化。从第一台 Dimensional Matter Assembler，到最终极的 Stellar Nexus 恒星模拟平台，构建属于你的星际工业线。
+乱界核心（Chaos World Core）是 ChaosWorld 整合包的核心模组，**依赖 UFO Future 模组**提供热力学机械、恒星物质、巨型存储与多方块自动化，并在此基础上添加金属/科技材料线、Mekanism 机械（机械组装机、龙魂锻炉、虚脉钻探机）与各类跨模组联动。从第一台 Dimensional Matter Assembler，到最终极的 Stellar Nexus 恒星模拟平台，构建属于你的星际工业线。
 
 ---
 
@@ -127,6 +127,7 @@ Nuclear Star → Neutronium Sphere → Enriched Neutronium Sphere → Charged En
 
 - NeoForge **21.1.x**
 - Minecraft **1.21.1**
+- UFO Future **2.1+**（必需，提供多方块机械、恒星模拟与巨型存储）
 - Applied Energistics 2（AE2）`19.2.17+`
 - ExtendedAE+ `1.5.5+`、Jade、AE2 Lightning Tech（AE2LT）`2.0.9+`、Thunderbolt Core `1.0.1+`、NeoEcoAE、AE2 OmniCells
 
@@ -147,7 +148,7 @@ Nuclear Star → Neutronium Sphere → Enriched Neutronium Sphere → Charged En
 
 **Minecraft 1.21.1 · NeoForge · An AE2 endgame expansion**
 
-Chaos World Core (乱界核心) is the core mod of the ChaosWorld modpack, incorporating all content from the UFO Future mod. It extends the AE2 endgame with thermal machines, stellar matter, mega storage and multiblock automation — from your first Dimensional Matter Assembler all the way to the ultimate Stellar Nexus simulation platform.
+Chaos World Core (乱界核心) is the core mod of the ChaosWorld modpack and an addon for the **UFO Future** mod. UFO Future provides the thermal machines, stellar matter, mega storage and multiblock automation; this mod adds the metals/tech material line, Mekanism machines (Mechanical Assembler, Dragon Soul Forge, Vein Drill) and cross-mod integrations. From your first Dimensional Matter Assembler all the way to the ultimate Stellar Nexus simulation platform.
 
 ## Features
 
@@ -268,6 +269,7 @@ Nuclear Star → Neutronium Sphere → Enriched Neutronium Sphere → Charged En
 
 - NeoForge **21.1.x**
 - Minecraft **1.21.1**
+- UFO Future **2.1+** (required; provides the multiblocks, stellar simulations and mega storage)
 - Applied Energistics 2 (AE2) `19.2.17+`
 - ExtendedAE+ `1.5.5+`, Jade, AE2 Lightning Tech (AE2LT) `2.0.9+`, Thunderbolt Core `1.0.1+`, NeoEcoAE, AE2 OmniCells
 

@@ -46,15 +46,17 @@ displayName="${mod_name}" #mandatory
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Chaos World Core (乱界核心) - an AE2 endgame expansion for Minecraft 1.21.1 NeoForge, incorporating all content from the UFO Future mod.
+Chaos World Core (乱界核心) - a UFO Future addon for Minecraft 1.21.1 NeoForge. UFO Future provides the multiblocks, stellar matter and mega storage; this mod adds the metals/tech material line, Mekanism machines (Mechanical Assembler, Dragon Soul Forge, Vein Drill), cross-mod integrations and its own storage cells.
 
-Quantum multiblocks: Dimensional Matter Assembler, Quantum Matter Fabricator, Quantum Slicer, Quantum Processing Factory, Quantum Cryoforge and a 72-pattern Quantum Pattern Hatch, with MK1-3 tier progression.
+Requires UFO Future 2.1+ (modid "ufo").
 
-Stellar Nexus: simulate stellar physics (Red Giant Collapse, Supernova Harvest, Stellar Synthesis...) for extreme-scale production, with field generators, fuel/coolant/heat management, Safe Mode and Overclocking.
+Mekanism machines: Mechanical Assembler and 8 factory tiers, Dragon Soul Forge and 8 factory tiers, Vein Drill with dimension ore pools and upgrades.
 
-Mega storage: White Dwarf / Pulsar / Neutron Star cells up to 256T, star matter progression, catalysts, UFO tools & armor, Astral Nexus set, Reality Ripper, stellar fluids, ACC/SCM containment and the Structure Terminal.
+Materials: tinted metal/tech ingots, nuggets, plates, dusts, gears, rods and storage blocks with automatic c: convention tags.
 
-Integrates with ExtendedAE+, AE2 Lightning Tech (AE2LT) + Thunderbolt Core, NeoEcoAE, AE2 OmniCells, Mekanism, KubeJS, JEI and Jade.
+Quantum Omni storage matrices (16G-256P) built on the AE2 OmniCells universal storage backend, NeoEcoAE ECO Drive compatible.
+
+Integrations: AE2, ExtendedAE+, AE2 Lightning Tech, ProjectE/ProjectExpansion, Twilight Forest, Mekanism, KubeJS, JEI and Jade.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
@@ -95,6 +97,20 @@ config="${mod_id}.mixins.json"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="ufo"
+    type="required"
+    ordering="AFTER"
+    side="BOTH"
+    versionRange="[3.0.0-beta.3,)"
+
+[[dependencies.${mod_id}]]
+    modId="raishxcore"
+    type="required"
+    ordering="AFTER"
+    side="BOTH"
+    versionRange="[0.1.0-beta.2,)"
 
 [[dependencies.${mod_id}]]
     modId="jade"

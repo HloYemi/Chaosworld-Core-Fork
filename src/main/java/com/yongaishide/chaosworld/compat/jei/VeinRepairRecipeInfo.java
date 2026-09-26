@@ -8,6 +8,6 @@ import net.minecraft.world.item.ItemStack;
 public record VeinRepairRecipeInfo(ItemStack item, int repairAmount) {
 
     public ItemStack hammer() {
-        return new ItemStack(com.yongaishide.chaosworld.item.ModTools.UFO_HAMMER.get());
+        return new ItemStack(com.raishxn.ufo.item.ModTools.UFO_HAMMER.get());
     }
 }

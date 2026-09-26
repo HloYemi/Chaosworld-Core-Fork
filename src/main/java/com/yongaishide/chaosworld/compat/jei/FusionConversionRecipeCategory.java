@@ -1,6 +1,5 @@
 package com.yongaishide.chaosworld.compat.jei;
 
-import com.yongaishide.chaosworld.item.ModItems;
 import com.yongaishide.chaosworld.recipe.FusionConversionRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -49,7 +48,7 @@ public class FusionConversionRecipeCategory implements IRecipeCategory<FusionCon
         if (controller != net.minecraft.world.item.Items.AIR) {
             return new net.minecraft.world.item.ItemStack(controller);
         }
-        return ModItems.NEUTRONITE_INGOT.get().getDefaultInstance();
+        return com.raishxn.ufo.item.ModItems.DIMENSIONAL_PROCESSOR.get().getDefaultInstance();
     }
 
     @Override

@@ -27,12 +27,12 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 /**
- * KubeJS support for {@code chaosworld_core:stellar_simulation} recipes.
+ * KubeJS support for {@code ufo:stellar_simulation} recipes (UFO Future).
  * <p>
  * Script usage:
  * <pre>{@code
  * ServerEvents.recipes(event => {
- *     event.recipes.chaosworld_core.stellar_simulation({
+ *     event.recipes.ufo.stellar_simulation({
  *         simulation_name: 'Test Simulation',
  *         energy: 1000000000,
  *         time: 7200,
@@ -40,11 +40,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
  *         cooling_level: 3,
  *         coolant_amount: 100000,
  *         fuel_amount: 150000,
- *         fuel_fluid: 'chaosworld_core:raw_star_matter_plasma',
+ *         fuel_fluid: 'ufo:source_raw_star_matter_plasma',
  *         item_inputs: ['minecraft:iron_ingot#64', 'minecraft:redstone#16'],
- *         fluid_inputs: ['chaosworld_core:uu_matter#1000'],
+ *         fluid_inputs: ['ufo:source_uu_matter#1000'],
  *         item_outputs: [Item.of('minecraft:diamond', 100)],
- *         fluid_outputs: [Fluid.of('chaosworld_core:source_liquid_starlight_fluid', 5000)]
+ *         fluid_outputs: [Fluid.of('ufo:source_liquid_starlight_fluid', 5000)]
  *     }).id('chaosworld_core:custom_simulation');
  * });
  * }</pre>
@@ -52,7 +52,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class UfoKubeJSPlugin implements KubeJSPlugin {
 
     public static final ResourceLocation STELLAR_TYPE =
-            ResourceLocation.fromNamespaceAndPath("chaosworld_core", "stellar_simulation");
+            ResourceLocation.fromNamespaceAndPath("ufo", "stellar_simulation");
 
     // ──────────────────── primitives ────────────────────
 

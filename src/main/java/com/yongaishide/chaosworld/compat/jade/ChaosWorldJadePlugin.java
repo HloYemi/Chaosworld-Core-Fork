@@ -7,11 +7,11 @@ import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
 
-import com.yongaishide.chaosworld.block.QuantumPatternHatchBlock;
-import com.yongaishide.chaosworld.block.entity.QuantumPatternHatchBE;
+import com.raishxn.ufo.block.QuantumPatternHatchBlock;
+import com.raishxn.ufo.block.entity.QuantumPatternHatchBE;
 
 /**
- * Jade integration for the Quantum Pattern Hatch (量子样板供应器).
+ * Jade integration for the Quantum Pattern Hatch (量子样板接口).
  * <p>
  * Shows the resources buffered inside the hatch's internal return inventory,
  * so players can see at a glance what is cached and waiting to be pushed back

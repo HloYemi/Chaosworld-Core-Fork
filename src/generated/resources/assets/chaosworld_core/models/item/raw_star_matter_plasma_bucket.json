@@ -1,5 +1,0 @@
-{
-  "parent": "neoforge:item/bucket",
-  "fluid": "chaosworld_core:raw_star_matter_plasma",
-  "loader": "neoforge:fluid_container"
-}
