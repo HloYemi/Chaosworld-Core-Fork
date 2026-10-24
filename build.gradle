@@ -90,48 +90,47 @@ configurations {
 }
 
 dependencies {
-    // libs/ 下的所有 JAR 作为实现依赖（排除 UFO / raishxcore / stubs，它们单独处理）
+    // 1. libs/ 下所有 JAR 作为实现依赖
     implementation fileTree(dir: 'libs', include: ['*.jar'], exclude: ['ufo-2.1-fix7.jar', 'ufo-3.0.0-beta.3.jar', 'ufo-3.0.0-beta.4.jar', 'raishxcore-0.1.0-beta.2.jar', 'ufo-stubs.jar'])
 
-    // UFO 与 raishxcore 仅编译期与运行时需要，不随依赖传递
+    // 2. UFO 和 raishxcore 单独引入
     compileOnly files('libs/ufo-3.0.0-beta.4.jar')
     compileOnly files('libs/raishxcore-0.1.0-beta.2.jar')
     localRuntime files('libs/ufo-3.0.0-beta.4.jar')
     localRuntime files('libs/raishxcore-0.1.0-beta.2.jar')
 
-    // 以下原本指向 run/mods/，现全部改为 libs/
-    compileOnly files('libs/ProjectE-1.21.1-PE1.1.0.jar')
-    compileOnly files('libs/projectexpansion-1.21.1-1.0.6.jar')
-    compileOnly files('libs/appliedenergistics2-19.2.18.jar')
-    compileOnly files('libs/AE2-Lightning-Tech-CE-2.1.0-beta.5.jar')
-    compileOnly files('libs/ExtendedAE-1.21-2.2.36-neoforge.jar')
-    compileOnly files('libs/Glodium-1.21-2.2-neoforge.jar')
-    compileOnly files('libs/FluxNetworks-1.21.1-8.0.0.jar')
-    compileOnly files('libs/more_flux_storage-1.21.1-1.0.3.jar')
-    compileOnly files('libs/guideme-21.1.17.jar')
-    compileOnly files('libs/ldlib2-neoforge-1.21.1-2.2.40-all.jar')
-    compileOnly files('libs/neoecoae-21.2.0-beta1.jar')
-    compileOnly files('libs/ae2omnicells-1.21.1-neoforge-1.1.6.jar')
+    // ==========================================
+    // 3. 使用通配符 * 模糊匹配 libs/ 下的文件
+    // ==========================================
+    // 匹配 ProjectE 和 Project Expansion
+    compileOnly fileTree(dir: 'libs', include: ['ProjectE-*.jar', 'projectexpansion-*.jar'])
+    
+    // 匹配 AE2、闪电科技、OmniCells
+    compileOnly fileTree(dir: 'libs', include: ['appliedenergistics2-*.jar', '*ae2lt*.jar', 'AE2-Lightning*.jar', 'ae2omnicells-*.jar'])
+    
+    // 匹配各种 AE 扩展
+    compileOnly fileTree(dir: 'libs', include: ['ExtendedAE-*.jar', 'extendedae_plus-*.jar', 'Glodium-*.jar', 'ae2addonlib-*.jar', 'AE2AddonLib-*.jar'])
+    
+    // 匹配 KubeJS 及前置
+    compileOnly fileTree(dir: 'libs', include: ['kubejs-*.jar', 'rhino-*.jar'])
+    
+    // 匹配 Mekanism 及扩展
+    compileOnly fileTree(dir: 'libs', include: ['Mekanism-*.jar', 'mekanism_extras-*.jar'])
+    
+    // 匹配界面、工具和库
+    compileOnly fileTree(dir: 'libs', include: ['Jade-*.jar', 'JEI*.jar', 'AppliedFlux-*.jar', 'ldlib2-*.jar', 'geckolib-*.jar', 'guideme-*.jar', 'architectury-*.jar'])
+    
+    // 匹配冒险及其他附属
+    compileOnly fileTree(dir: 'libs', include: ['twilightforest-*.jar', 'Re-Avaritia-*.jar'])
+    
+    // 匹配 FTB 系列
+    compileOnly fileTree(dir: 'libs', include: ['ftb-quests-*.jar', 'ftb-library-*.jar', 'ftb-teams-*.jar'])
+
+    // ==========================================
+    // 4. Maven 依赖保留
+    // ==========================================
     compileOnly "org.appliedenergistics.yoga:yoga:1.0.0"
     compileOnly "dev.vfyjxf:taffy:1.1.4"
-    compileOnly files('libs/kubejs-neoforge-2101.7.2-build.377.jar')
-    compileOnly files('libs/rhino-2101.2.8-build.91.jar')
-    compileOnly files('libs/ae2addonlib-1.0.3-1.21.1.jar')
-    compileOnly files('libs/geckolib-neoforge-1.21.1-4.9.2.jar')
-    compileOnly files('libs/Mekanism-1.21.1-10.7.19.85.jar')
-    compileOnly files('libs/mekanism_extras-1.21.1-1.4.1.jar')
-    compileOnly files('libs/JEIunofficial-1.21.1-neoforge-19.53.0.426.jar')
-    compileOnly files('libs/AppliedFlux-1.21-2.1.5-neoforge.jar')
-    compileOnly files('libs/Jade-1.21.1-NeoForge-15.10.6.jar')
-    compileOnly files('libs/extendedae_plus-1.6.2.jar')
-    compileOnly files('libs/twilightforest-1.21.1-4.8.3345-universal.jar')
-    compileOnly files('libs/Re-Avaritia-neoforge-1.21.1-1.4.2-release.jar')
-
-    // FTB Quests 集成（运行时可选，由 ModList 检查守卫）
-    compileOnly files('libs/ftb-quests-neoforge-2101.1.36.jar')
-    compileOnly files('libs/ftb-library-neoforge-2101.1.36.jar')
-    compileOnly files('libs/ftb-teams-neoforge-2101.1.9.jar')
-    compileOnly files('libs/architectury-neoforge-13.0.8.jar')
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
