@@ -34,18 +34,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * 物质聚合器：接入 AE 网络。
- * <p>
- * AE2 的网格设备依靠 AENetworkedBlockEntity 挂载节点；冷凝器并非网格机器，本 Mixin
- * 通过声明 superclass 混入（CondenserBlockEntity 的直接父类）覆写其生命周期，
- * 并用目标类自身声明的方法作注入点：{@code <init>} 创建 managed node，
- * {@code loadTag}/{@code saveAdditional} 持久化节点状态，{@code fillOutput} 产出后唤醒
- * 网格 ticker，将输出槽物品自动推入网络存储。
- */
 @Mixin(value = CondenserBlockEntity.class, remap = false)
 public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
         implements IGridConnectedBlockEntity, IGridTickable {
@@ -62,7 +54,6 @@ public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
     @Shadow(remap = false)
     private AppEngInternalInventory storageSlot;
 
-    // Mixin 不合并构造器；此声明仅供编译期满足 super 约束。
     public CondenserBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -124,7 +115,6 @@ public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
     @Override
     public void clearRemoved() {
         super.clearRemoved();
-        // 与 AENetworkedBlockEntity 一致:重载后重新调度首 tick 初始化(触发 onReady -> createNode)
         this.scheduleInit();
     }
 
@@ -164,33 +154,26 @@ public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
         return this.ufo$exportToNetwork();
     }
 
-    @Inject(method = "fillOutput", at = @At("TAIL"), remap = false)
-    private void ufo$afterFillOutput(CallbackInfo ci) {
-        this.ufo$alertTickManager();
-    }
-
     /**
-     * 产出瞬间直接推入 AE 网络,不经输出槽。
-     * <p>
-     * {@code fillOutput()} 循环内每产出一个就调用 {@code addOutput()}:这里拦截,
-     * 网络在线且能收就直插网络并跳过原逻辑(产物不进输出槽);网络不可用/收不下
-     * 则回落到原 {@code addOutput()}(进输出槽等 ticker 再导出)。
+     * AE2 19.2.18 的 fillOutput() 中，产物通过 outputSlot.insertItem(0, output, false) 写入。
+     * 这里重定向该调用：先尝试直推 ME 网络，成功则跳过原版插入，失败则调用原版逻辑。
      */
-    @Inject(method = "addOutput", at = @At("HEAD"), cancellable = true, remap = false)
-    private void ufo$addOutput(CallbackInfo ci) {
-        if (this.ufo$pushOutputDirectToNetwork()) {
-            ci.cancel();
+    @Redirect(method = "fillOutput", at = @At(value = "INVOKE",
+            target = "Lappeng/util/inv/AppEngInternalInventory;insertItem(ILnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/item/ItemStack;"),
+            remap = false)
+    private ItemStack ufo$redirectInsertOutput(AppEngInternalInventory inventory, int slot, ItemStack stack, boolean simulate) {
+        if (!simulate && this.ufo$pushOutputDirectToNetwork(stack)) {
             this.saveChanges();
+            return ItemStack.EMPTY;
         }
+        return inventory.insertItem(slot, stack, simulate);
     }
 
     /**
      * 尝试把即将产出的物品直插网络存储。
-     *
-     * @return true = 已成功插入(调用方应跳过 addOutput),false = 网络不可用/满了,走原逻辑
      */
     @Unique
-    private boolean ufo$pushOutputDirectToNetwork() {
+    private boolean ufo$pushOutputDirectToNetwork(ItemStack pending) {
         IGridNode node = this.ufo$mainNode.getNode();
         if (node == null || !node.isActive()) {
             return false;
@@ -203,7 +186,6 @@ public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
         if (storage == null) {
             return false;
         }
-        ItemStack pending = this.ufo$peekOutputStack();
         if (pending == null || pending.isEmpty()) {
             return false;
         }
@@ -211,28 +193,6 @@ public abstract class CondenserBlockEntityMixin extends AEBaseInvBlockEntity
         return inserted > 0;
     }
 
-    /**
-     * 读取即将产出的产物本体(单件)。{@code getOutput()} 按当前模式返回
-     * matter ball / singularity,TRASH 模式返回空,此时不走直推。
-     */
-    @Unique
-    private ItemStack ufo$peekOutputStack() {
-        ItemStack output = this.getOutput();
-        if (output == null || output.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack copy = output.copy();
-        copy.setCount(1);
-        return copy;
-    }
-
-    @Shadow(remap = false)
-    protected abstract ItemStack getOutput();
-
-    /**
-     * 将输出槽的物品尝试插入网络存储；成功则 FASTER 继续清空，槽空则 SLEEP，
-     * 网络已满则 IDLE 保持频率重试。
-     */
     @Unique
     private TickRateModulation ufo$exportToNetwork() {
         IGridNode node = this.ufo$mainNode.getNode();
